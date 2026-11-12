@@ -1,0 +1,29 @@
+{{- define "main" }}
+{{- $img := (.Resources.ByType "image").GetMatch (.Params.image | default "*") }}
+<article class="post-single illustration-single">
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if and (not (.Param "hideMeta")) (not .Date.IsZero) }}
+    <div class="post-meta">{{ .Date | time.Format ":date_long" }}</div>
+    {{- end }}
+  </header>
+
+  {{- with $img }}
+  {{- $large := .Fit "1600x1600 webp q85" }}
+  <figure class="illustration-figure">
+    <a href="{{ .RelPermalink }}" title="Voir en taille réelle">
+      <img src="{{ $large.RelPermalink }}" width="{{ $large.Width }}" height="{{ $large.Height }}" alt="{{ $.Title }}">
+    </a>
+  </figure>
+  {{- end }}
+
+  {{- with .Content }}
+  <div class="post-content md-content">{{ . }}</div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- partial "section_nav.html" (dict "page" . "pages" .Parent.Pages.ByDate.Reverse) }}
+    <p class="back-to-gallery"><a href="{{ .Parent.RelPermalink }}">← Toutes les illustrations</a></p>
+  </footer>
+</article>
+{{- end }}

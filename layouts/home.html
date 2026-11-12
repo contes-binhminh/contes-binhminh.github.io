@@ -1,0 +1,13 @@
+{{- /* The home page just sends visitors to the Adventure story. */ -}}
+{{- $target := (site.GetPage "/adventure").RelPermalink -}}
+<!DOCTYPE html>
+<html lang="{{ site.Language }}">
+<head>
+  <title>{{ site.Title }}</title>
+  <link rel="canonical" href="{{ $target }}">
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url={{ $target }}">
+  <script>location.replace({{ $target }});</script>
+</head>
+<body><a href="{{ $target }}">{{ site.Title }}</a></body>
+</html>

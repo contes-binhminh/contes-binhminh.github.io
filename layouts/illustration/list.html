@@ -1,0 +1,23 @@
+{{- define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}<div class="post-description">{{ . }}</div>{{ end }}
+</header>
+
+{{- with .Content }}<div class="post-content md-content">{{ . }}</div>{{ end }}
+
+<div class="gallery">
+  {{- range $page := .Pages.ByDate.Reverse }}
+  {{- $img := ($page.Resources.ByType "image").GetMatch ($page.Params.image | default "*") }}
+  {{- with $img }}
+  {{- $thumb := . }}
+  {{- if gt .Width 600 }}{{ $thumb = .Resize "600x webp q80" }}{{ else }}{{ $thumb = .Process "webp q80" }}{{ end }}
+  <a class="gallery-item" href="{{ $page.RelPermalink }}" title="{{ $page.Title }}">
+    <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
+         alt="{{ $page.Title }}" loading="lazy" decoding="async">
+    <span class="gallery-caption">{{ $page.Title }}</span>
+  </a>
+  {{- end }}
+  {{- end }}
+</div>
+{{- end }}

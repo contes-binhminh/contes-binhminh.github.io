@@ -1,0 +1,40 @@
+baseURL: "https://example.org/"
+locale: fr-FR
+defaultContentLanguage: fr
+title: Les contes de Binh-Minh
+copyright: "© 2026 DANG Binh-Minh · Histoires et illustrations sous licence [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr)"
+theme: PaperMod
+
+enableRobotsTXT: true
+
+params:
+  env: production
+  description: "Histoires et carnets."
+  author: "DANG Binh-Minh"
+  defaultTheme: light
+  disableThemeToggle: true   # white mode only; set to false + defaultTheme: auto to bring dark mode back
+  # Accent colour (links, "· manuscript", etc.): one shade for light mode, a lighter one for dark mode
+  accentColor: "#1f3a93"
+  accentColorDark: "#8ea8ff"
+  ShowReadingTime: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: false
+  label:
+    text: "Les contes de Binh-Minh"
+    icon: images/logo.svg     # file lives in assets/images/
+    iconHeight: 110
+
+menu:
+  main:
+    - name: L’Amdonner
+      url: /adventure/
+      weight: 1
+    - name: Manuscrit
+      url: /manuscript/
+      weight: 2
+    - name: Illustrations
+      url: /illustration/
+      weight: 3
+    - name: Cucu
+      url: /about/
+      weight: 4

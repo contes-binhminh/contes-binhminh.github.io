@@ -1,0 +1,26 @@
+{{- /* Previous / next links within a list of pages.
+       Call with: partial "section_nav.html" (dict "page" . "pages" <ordered pages>) */ -}}
+{{- $pages := .pages }}
+{{- $page := .page }}
+{{- $i := -1 }}
+{{- range $n, $p := $pages }}{{ if eq $p $page }}{{ $i = $n }}{{ end }}{{ end }}
+{{- if ge $i 0 }}
+<nav class="paginav">
+  {{- if gt $i 0 }}
+  {{- with index $pages (sub $i 1) }}
+  <a class="prev" href="{{ .RelPermalink }}">
+    <span class="title">« {{ i18n "prev_page" }}</span>
+    <span>{{ .Title }}</span>
+  </a>
+  {{- end }}
+  {{- end }}
+  {{- if lt (add $i 1) (len $pages) }}
+  {{- with index $pages (add $i 1) }}
+  <a class="next" href="{{ .RelPermalink }}">
+    <span class="title">{{ i18n "next_page" }} »</span>
+    <span>{{ .Title }}</span>
+  </a>
+  {{- end }}
+  {{- end }}
+</nav>
+{{- end }}

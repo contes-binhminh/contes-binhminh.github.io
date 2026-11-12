@@ -1,0 +1,55 @@
+{{- /*
+  Creates one manuscript page per chapter from the scans in assets/manuscript/.
+
+  Naming: <chapter>[-<page number>].<ext>
+    ch01.jpg                         -> chapter ch01, page 1
+    ch02-1.jpg, ch02-2.jpg, ch02-3.jpg -> chapter ch02, pages 1-3
+  The chapter part must match a file in content/adventure/ (ch02 -> ch02.md).
+  Optional notes: assets/manuscript/<chapter>.md (Markdown, no front matter needed).
+*/ -}}
+
+{{- /* 1. Group scans by chapter: { "ch02": [ {n, res}, ... ] } */}}
+{{- $groups := dict }}
+{{- range resources.Match "manuscript/*" }}
+  {{- if eq .ResourceType "image" }}
+    {{- $name := path.BaseName .Name }}
+    {{- $chapter := replaceRE `-\d+$` "" $name }}
+    {{- $n := 1 }}
+    {{- with findRESubmatch `-(\d+)$` $name 1 }}{{ $n = int (strings.TrimLeft "0" (index (index . 0) 1) | default "0") }}{{ end }}
+    {{- $list := index $groups $chapter | default slice }}
+    {{- $list = $list | append (dict "n" $n "res" .) }}
+    {{- $groups = merge $groups (dict $chapter $list) }}
+  {{- end }}
+{{- end }}
+
+{{- /* 2. One page per chapter, with all its scans attached in page order */}}
+{{- range $chapter, $scans := $groups }}
+  {{- $chapterFile := printf "content/adventure/%s.md" $chapter }}
+  {{- $title := $chapter }}
+  {{- $weight := 0 }}
+  {{- if os.FileExists $chapterFile }}
+    {{- $src := os.ReadFile $chapterFile }}
+    {{- with findRESubmatch `(?m)^title:\s*"?(.*?)"?\s*$` $src 1 }}{{ $title = index (index . 0) 1 }}{{ end }}
+    {{- with findRESubmatch `(?m)^weight:\s*(\d+)\s*$` $src 1 }}{{ $weight = int (index (index . 0) 1) }}{{ end }}
+  {{- end }}
+
+  {{- $notes := "" }}
+  {{- with resources.Get (printf "manuscript/%s.md" $chapter) }}{{ $notes = .Content }}{{ end }}
+
+  {{- $.AddPage (dict
+    "path" $chapter
+    "title" $title
+    "weight" $weight
+    "kind" "page"
+    "params" (dict "chapter" $chapter "pageCount" (len $scans))
+    "content" (dict "mediaType" "text/markdown" "value" $notes)
+  ) }}
+
+  {{- range sort $scans "n" }}
+    {{- $res := .res }}
+    {{- $.AddResource (dict
+      "path" (printf "%s/scan-%03d-%s%s" $chapter .n (path.BaseName $res.Name) (path.Ext $res.Name))
+      "content" (dict "mediaType" $res.MediaType.Type "value" $res)
+    ) }}
+  {{- end }}
+{{- end }}

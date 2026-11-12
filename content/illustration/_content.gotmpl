@@ -1,0 +1,70 @@
+{{- /*
+  Creates one illustration page per image in assets/illustrations/.
+
+  File names:   [YYYY-MM-DD-]name.jpg   (the optional date sets the order, newest first)
+  Captions:     assets/illustrations/captions.md, one entry per image:
+
+      ## 2026-11-12-dragon-rouge.jpg
+      - Title: Le grand dragon rouge
+      - Caption: Dessiné pendant les vacances.
+
+  Without an entry (or without "- Title:"), the title comes from the file name.
+*/ -}}
+
+{{- /* 1. Read captions.md into { "file.jpg": {title, caption} } (file names compared in lower case) */}}
+{{- $entries := dict }}
+{{- with resources.Get "illustrations/captions.md" }}
+  {{- range split (printf "\n%s" .Content) "\n## " }}
+    {{- $lines := split . "\n" }}
+    {{- $file := trim (index $lines 0) " \t\r" }}
+    {{- if $file }}
+      {{- $body := delimit (after 1 $lines) "\n" }}
+      {{- $title := "" }}
+      {{- with findRESubmatch `(?mi)^\s*-\s*(?:Title|Titre)\s*:\s*(.*?)\s*$` $body 1 }}{{ $title = index (index . 0) 1 }}{{ end }}
+      {{- $rest := replaceRE `(?mi)^\s*-\s*(?:Title|Titre)\s*:.*$` "" $body }}
+      {{- $caption := "" }}
+      {{- with findRESubmatch `(?si)-\s*(?:Caption|Légende)\s*:(.*)$` $rest 1 }}{{ $caption = trim (index (index . 0) 1) " \t\r\n" }}{{ end }}
+      {{- $entries = merge $entries (dict (lower $file) (dict "title" $title "caption" $caption)) }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- /* 2. One page per image */}}
+{{- $seen := slice }}
+{{- range resources.Match "illustrations/*" }}
+  {{- if eq .ResourceType "image" }}
+    {{- $file := path.Base .Name }}
+    {{- $base := path.BaseName .Name }}
+    {{- $seen = $seen | append (lower $file) }}
+
+    {{- $date := "" }}
+    {{- $slug := $base }}
+    {{- with findRESubmatch `^(\d{4}-\d{2}-\d{2})-?(.*)$` $base 1 }}
+      {{- $date = index (index . 0) 1 }}
+      {{- $slug = index (index . 0) 2 | default $base }}
+    {{- end }}
+
+    {{- $entry := index $entries (lower $file) | default dict }}
+    {{- $title := $entry.title | default (replaceRE `[-_]+` " " $slug | strings.FirstUpper) }}
+
+    {{- $page := dict
+      "path" (urlize $base)
+      "title" $title
+      "kind" "page"
+      "content" (dict "mediaType" "text/markdown" "value" ($entry.caption | default ""))
+    }}
+    {{- with $date }}{{ $page = merge $page (dict "dates" (dict "date" (time.AsTime .))) }}{{ end }}
+    {{- $.AddPage $page }}
+    {{- $.AddResource (dict
+      "path" (printf "%s/image%s" (urlize $base) (path.Ext .Name))
+      "content" (dict "mediaType" .MediaType.Type "value" .)
+    ) }}
+  {{- end }}
+{{- end }}
+
+{{- /* 3. Warn about caption entries whose image doesn't exist (usually a typo in the file name) */}}
+{{- range $file, $_ := $entries }}
+  {{- if not (in $seen $file) }}
+    {{- warnf "captions.md: no image named %q in assets/illustrations/" $file }}
+  {{- end }}
+{{- end }}

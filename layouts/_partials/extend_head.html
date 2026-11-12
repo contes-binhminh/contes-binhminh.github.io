@@ -1,0 +1,7 @@
+{{- /* Accent colour from hugo.yaml (params.accentColor / params.accentColorDark) */ -}}
+{{- $light := site.Params.accentColor | default "#1f3a93" }}
+{{- $dark := site.Params.accentColorDark | default $light }}
+<style>
+  :root { --link: {{ $light | safeCSS }}; }
+  :root[data-theme="dark"] { --link: {{ $dark | safeCSS }}; }
+</style>

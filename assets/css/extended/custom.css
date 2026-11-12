@@ -1,0 +1,323 @@
+/* Two-row header: logo/title on top, centered menu underneath */
+.header {
+  position: relative;
+}
+
+.header-nav {
+  flex-direction: column;
+  align-items: center;
+  line-height: normal;
+  padding: 0;
+}
+
+/* Row 1: centered logo + title stacked */
+.logo {
+  justify-content: center;
+  margin: 2rem auto 1.25rem;
+}
+.logo > a {
+  flex-direction: row;          /* logo and site name side by side */
+  align-items: center;
+  column-gap: 1rem;
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.logo > a img,
+.logo > a svg {
+  border-radius: 0;
+}
+
+/* Keep the light/dark toggle out of the way, top-right */
+.logo-switches {
+  position: absolute;
+  top: 1rem;
+  right: var(--gap);
+}
+
+/* Row 2: centered menu between two thin rules */
+.menu {
+  justify-content: center;
+  width: 100%;
+  padding: 0.9rem var(--gap);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  column-gap: 2.5rem;
+}
+.menu a {
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 600px) {
+  .logo > a { font-size: 1.4rem; }
+  .logo > a img { height: 56px; width: auto; }
+  .menu { column-gap: 1.25rem; row-gap: 0.4rem; flex-wrap: wrap; justify-content: center; }
+}
+
+/* Adventure page: all chapters on one page */
+body:has(.adventure-full) {
+  background: var(--theme);
+}
+.adventure-full .chapter {
+  margin-top: 3rem;
+}
+.adventure-full .chapter + .chapter {
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+.adventure-full .chapter-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+.adventure-full .chapter-subtitle {
+  margin: 0 0 1.5rem;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--secondary);
+}
+
+/* Illustration gallery: masonry columns */
+.gallery {
+  columns: 3 200px;
+  column-gap: 1rem;
+  margin-top: 1.5rem;
+}
+.gallery-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--entry);
+  margin-bottom: 1rem;
+  break-inside: avoid;
+}
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+  transition: transform 0.3s ease;
+}
+.gallery-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.5rem 0.75rem 0.6rem;
+  font-size: 0.9rem;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gallery-item:hover img,
+.gallery-item:focus-visible img { transform: scale(1.04); }
+.gallery-item:hover .gallery-caption,
+.gallery-item:focus-visible .gallery-caption { opacity: 1; }
+@media (hover: none) {
+  .gallery-caption { opacity: 1; }
+}
+@media (max-width: 600px) {
+  .gallery { columns: 2; column-gap: 0.5rem; }
+  .gallery-item { margin-bottom: 0.5rem; }
+}
+
+/* Single illustration page */
+.illustration-figure { margin: 1.5rem 0; }
+.illustration-figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 6px;
+}
+.back-to-gallery { margin-top: 1.5rem; }
+
+/* Link from a chapter title to its handwritten page */
+.adventure-full .chapter-manuscript {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;  /* PaperMod default */
+  margin-inline-start: 0.4rem;
+  font-size: 0.95em;
+  font-weight: 400;
+}
+
+/* Manuscript page: simple grid, in order */
+.manuscript-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem 1rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+.manuscript-item { margin: 0; }
+.manuscript-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top;
+  margin: 0;
+  border-radius: 6px;
+  background: var(--entry);
+}
+.manuscript-item figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.manuscript-item .manuscript-sub {
+  display: block;
+  font-style: italic;
+  color: var(--secondary);
+}
+@media (max-width: 600px) {
+  .manuscript-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem 0.5rem; }
+}
+
+/* Typewriter fonts, served from static/fonts/ (no external requests).
+   Paths are relative to the built stylesheet at /assets/css/. */
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../../fonts/courier-prime/CourierPrime-Regular.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../../fonts/courier-prime/CourierPrime-Italic.ttf") format("truetype");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../../fonts/courier-prime/CourierPrime-Bold.ttf") format("truetype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("../../fonts/courier-prime/CourierPrime-BoldItalic.ttf") format("truetype");
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Special Elite";
+  src: url("../../fonts/special-elite/SpecialElite-Regular.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+/* Menu, story title, chapter list and chapter titles: clean typewriter
+   (everything else keeps PaperMod's default font) */
+.menu,
+.adventure-full .post-title,
+.adventure-full .toc,
+.adventure-full .chapter-title,
+.adventure-full > .post-content h2 {
+  font-family: "Courier Prime", "Courier New", monospace;
+}
+/* Site name only: worn typewriter */
+.logo > a {
+  font-family: "Special Elite", "Courier Prime", monospace;
+  font-weight: 400;
+}
+
+/* Links: ink-blue, underline only on hover */
+/* The colour itself (--link) is set in hugo.yaml: params.accentColor / accentColorDark */
+
+.md-content a:not(.anchor),
+.adventure-full .chapter-manuscript,
+.manuscript-item figcaption a {
+  color: var(--link);
+  font-style: normal;
+  text-decoration: none;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
+}
+.md-content a:not(.anchor):hover,
+.adventure-full .chapter-manuscript:hover,
+.manuscript-item figcaption a:hover {
+  text-decoration: underline;
+}
+.manuscript-read a,
+.back-to-gallery a { color: var(--link); }
+.manuscript-read a:hover,
+.back-to-gallery a:hover { text-decoration: underline; }
+
+
+/* Manuscript: several pages per chapter */
+.manuscript-cover { position: relative; display: block; }
+.manuscript-count {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+}
+.manuscript-page { margin-bottom: 2.5rem; }
+.manuscript-page figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--secondary);
+}
+
+/* Phones: slim bar with ☰ once the header has scrolled away (see layouts/_partials/mini_menu.html) */
+.mini-bar { display: none; }
+@media (max-width: 600px) {
+  .mini-bar {
+    display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: var(--theme);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-110%);
+    transition: transform 0.25s ease;
+  }
+  .mini-bar.show { transform: translateY(0); }
+  .mini-title {
+    display: inline-block;
+    padding: 0.7rem var(--gap);
+    font-family: "Special Elite", "Courier Prime", monospace;
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .mini-burger {
+    position: absolute;
+    top: 0.35rem;
+    right: calc(var(--gap) - 0.4rem);
+    padding: 0.2rem 0.5rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--primary);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .mini-menu { display: none; border-top: 1px solid var(--border); }
+  .mini-bar.open .mini-menu { display: block; }
+  .mini-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0 0.9rem;
+    text-align: center;
+    font-family: "Courier Prime", "Courier New", monospace;
+  }
+  .mini-menu li a { display: block; padding: 0.55rem 0; }
+  .mini-menu a.active {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+    text-decoration-thickness: 2px;
+  }
+  /* Keep jump targets (e.g. a chapter from the Chapitres list) clear of the bar */
+  .chapter, [id^="page-"] { scroll-margin-top: 4rem; }
+}
+
+/* Headings in the story introduction (e.g. "Personnages") look like chapter titles */
+.adventure-full > .post-content h2 {
+  font-size: 1.8rem;
+  margin: 2.5rem 0 1.25rem;
+}

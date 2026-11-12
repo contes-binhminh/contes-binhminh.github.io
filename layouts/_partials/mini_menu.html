@@ -1,0 +1,42 @@
+{{- /* Phones: slim bar with the site name and a ☰ menu, shown once the header scrolls out of view. Included from extend_footer.html. */ -}}
+<div class="mini-bar" id="mini-bar" aria-hidden="true">
+  <a class="mini-title" href="{{ "" | relLangURL }}">{{ site.Params.label.text | default site.Title }}</a>
+  <button class="mini-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mini-menu">☰</button>
+  <nav class="mini-menu" id="mini-menu">
+    <ul>
+      {{- range site.Menus.main }}
+      <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>
+      {{- end }}
+    </ul>
+  </nav>
+</div>
+<script>
+(function () {
+  var bar = document.getElementById("mini-bar");
+  var header = document.querySelector(".header");
+  var button = bar.querySelector(".mini-burger");
+  if (!header || !("IntersectionObserver" in window)) return;
+
+  function setOpen(open) {
+    bar.classList.toggle("open", open);
+    button.setAttribute("aria-expanded", open);
+    button.textContent = open ? "✕" : "☰";
+  }
+
+  // Show the bar only while the real header is off-screen
+  new IntersectionObserver(function (entries) {
+    var hidden = !entries[0].isIntersecting;
+    bar.classList.toggle("show", hidden);
+    bar.setAttribute("aria-hidden", !hidden);
+    if (!hidden) setOpen(false);
+  }).observe(header);
+
+  button.addEventListener("click", function () { setOpen(!bar.classList.contains("open")); });
+  bar.querySelectorAll(".mini-menu a").forEach(function (a) {
+    a.addEventListener("click", function () { setOpen(false); });
+    if (location.pathname.indexOf(new URL(a.href).pathname) === 0 && new URL(a.href).pathname !== "/") a.classList.add("active");
+  });
+  document.addEventListener("click", function (e) { if (!bar.contains(e.target)) setOpen(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
+})();
+</script>

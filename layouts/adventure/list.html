@@ -1,0 +1,45 @@
+{{- define "main" }}
+{{- $chapters := .Pages.ByWeight }}
+<article class="post-single adventure-full">
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- with .Description }}<div class="post-description">{{ . }}</div>{{ end }}
+  </header>
+
+  {{- if gt (len $chapters) 1 }}
+  <div class="toc">
+    <details>
+      <summary accesskey="c"><span class="details">Chapitres</span></summary>
+      <div class="inner">
+        <ul>
+          {{- range $chapters }}
+          <li><a href="#{{ .File.ContentBaseName }}">{{ .Title }}{{ with .Params.subtitle }}&nbsp;: {{ . }}{{ end }}</a></li>
+          {{- end }}
+        </ul>
+      </div>
+    </details>
+  </div>
+  {{- end }}
+
+  {{- with .Content }}
+  <div class="post-content md-content">{{ . }}</div>
+  {{- end }}
+
+  {{- range $chapters }}
+  <section class="chapter" id="{{ .File.ContentBaseName }}">
+    <h2 class="chapter-title">{{ .Title }}</h2>
+    {{- $manu := false }}
+    {{- with site.GetPage (printf "/manuscript/%s" .File.ContentBaseName) }}{{ $manu = . }}{{ end }}
+    {{- if or .Params.subtitle $manu }}
+    <p class="chapter-subtitle">
+      {{- with .Params.subtitle }}<span>{{ . }}</span>{{ end }}
+      {{- with $manu }}
+      <a class="chapter-manuscript" href="{{ .RelPermalink }}" title="Manuscrit">· manuscrit</a>
+      {{- end }}
+    </p>
+    {{- end }}
+    <div class="post-content md-content">{{ .Content }}</div>
+  </section>
+  {{- end }}
+</article>
+{{- end }}
