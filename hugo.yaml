@@ -6,14 +6,18 @@ copyright: "© 2026 DANG Binh-Minh · Histoires et illustrations sous licence [C
 theme: PaperMod
 
 enableRobotsTXT: true
+enableEmoji: true
 
 params:
   env: production
-  description: "Histoires et carnets."
+  description: "Des histoires de détective et des dessins, tapés à la machine à écrire."
   author: "DANG Binh-Minh"
   defaultTheme: light
-  disableThemeToggle: true   # white mode only; set to false + defaultTheme: auto to bring dark mode back
-  # Accent colour (links, "· manuscript", etc.): one shade for light mode, a lighter one for dark mode
+  # white mode only 
+  disableThemeToggle: true   
+  # Accent colour (links, "· manuscript", etc.): 
+  #   - one shade for light mode, 
+  #   - a lighter one for dark mode
   accentColor: "#1f3a93"
   accentColorDark: "#8ea8ff"
   ShowReadingTime: true
@@ -26,15 +30,15 @@ params:
 
 menu:
   main:
-    - name: L’Amdonner
+    - name: "L’Amdonner 🎩"
       url: /adventure/
       weight: 1
-    - name: Manuscrit
+    - name: "Manuscrit"
       url: /manuscript/
       weight: 2
     - name: Illustrations
       url: /illustration/
       weight: 3
-    - name: Cucu
+    - name: "Coucou 👋"
       url: /about/
       weight: 4

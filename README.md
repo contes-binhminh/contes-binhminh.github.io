@@ -3,21 +3,15 @@
 ## License
 
 **The stories, manuscript scans and illustrations** in this repository
-are © Binh-Minh and licensed under
-[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+are © Binh-Minh and 
+licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-See [`LICENSE`](LICENSE) for the full legal text.
-
-In short, you may share and adapt this work, as long as you:
-
-- **give credit** to the author and link to the licence,
-- **do not use it for commercial purposes**, and
-- **share any adaptations under the same licence.**
+See [`LICENSE`](LICENSE).
 
 No commercial use allowed. 
 
-**Third-party parts keep their own licences:**
+**Third-party parts licences:**
 
-- PaperMod theme (`themes/PaperMod/`): MIT, see its own `LICENSE`.
-- Courier Prime font (`static/fonts/courier-prime/`): SIL Open Font License 1.1, see `OFL.txt`.
-- Special Elite font (`static/fonts/special-elite/`): Apache License 2.0, see `LICENSE.txt`.
+- Hugo theme [PaperMod](https://github.com/adityatelange/hugo-PaperMod): MIT license. 
+- Font: [Courier Prime](https://fonts.google.com/specimen/Courier+Prime?preview.script=Latn): SIL Open Font License 1.1, see (`static/fonts/courier-prime/OFL.txt`).
+- Font: [Special Elite](https://fonts.google.com/specimen/Special+Elite?preview.script=Latn): Apache License 2.0, see (`static/fonts/special-elite/LICENSE.txt`).

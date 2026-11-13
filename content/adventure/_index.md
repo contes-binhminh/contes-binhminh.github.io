@@ -1,6 +1,6 @@
 ---
 title: "L'adventure de M. Lapreusinne"
-summary: "L'adventure de M. Lapreusinne."
+summary: "Le pauvre cambrioleur est inquiété..."
 # Chapters are shown together on this page only; don't build a separate page per chapter.
 cascade:
   - build:
@@ -19,7 +19,7 @@ aux amandes, les policiers!
 
 **Inspecteur Romanode**: un exellent policier mais pas assez puissant pour
 attraper l'Amadonner. Donc, il fait appel à un autre exellent DETECTIVE, fan de
-Sherlock Holmes ! Ce detective est
+Sherlock Holmes ! Ce detective est:
 
 **Koditaki** est ce détective-là. C'est un merveilleux lycéen qui ne tarde pas
 d'accepter sa mission: poursuivre ce "l'Amdonner.".
