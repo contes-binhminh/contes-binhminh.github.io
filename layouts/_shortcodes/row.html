@@ -1,0 +1,38 @@
+{{- /*
+  One row: image on the left (35%), text on the right (65%).
+  Stacks vertically on phones.
+
+  Usage (in any .md file):
+    {{< row src="images/koditaki.jpg" alt="Koditaki" >}}
+    **Koditaki** est ce détective-là...
+    {{< /row >}}
+
+  `src` is looked up as: page resource (file next to the .md) → assets/ → plain URL.
+
+  Optional sizing:
+    width="25%"     image column width (default 35%; text takes the rest)
+    height="220px"  image height; width follows to keep proportions
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $colStyle := "" -}}
+{{- with .Get "width" }}{{ $colStyle = printf "--img-col: %s;" . }}{{ end -}}
+{{- $imgStyle := "" -}}
+{{- with .Get "height" }}{{ $imgStyle = printf "height: %s; width: auto; max-width: 100%%;" . }}{{ end -}}
+{{- $img := or (.Page.Resources.Get $src) (resources.Get $src) -}}
+{{- $url := $src -}}
+{{- with $img -}}
+  {{- if and (eq .MediaType.MainType "image") (gt .Width 800) -}}
+    {{- $url = (.Resize "800x").RelPermalink -}}
+  {{- else -}}
+    {{- $url = .RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+<div class="media-row">
+  <div class="media-row-img"{{ with $colStyle }} style="{{ . | safeCSS }}"{{ end }}>
+    <img src="{{ $url }}" alt="{{ $alt }}" loading="lazy"{{ with $imgStyle }} style="{{ . | safeCSS }}"{{ end }}>
+  </div>
+  <div class="media-row-text">
+    {{ .Inner | strings.TrimSpace | .Page.RenderString (dict "display" "block") }}
+  </div>
+</div>

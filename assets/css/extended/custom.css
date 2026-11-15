@@ -321,3 +321,26 @@ body:has(.adventure-full) {
   font-size: 1.8rem;
   margin: 2.5rem 0 1.25rem;
 }
+
+/* Image + text rows (see layouts/_shortcodes/row.html): image 35%, text 65% */
+.media-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 2rem 0;
+}
+.media-row-img { flex: 0 0 var(--img-col, 30%); }
+.media-row-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 6px;
+}
+.media-row-text { flex: 1 1 70%; min-width: 0; }
+.media-row-text > :first-child { margin-top: 0; }
+.media-row-text > :last-child { margin-bottom: 0; }
+@media (max-width: 600px) {
+  .media-row { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .media-row-img { flex-basis: auto; }
+}
