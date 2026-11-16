@@ -39,6 +39,9 @@ menu:
     - name: Illustrations
       url: /illustration/
       weight: 3
+    - name: Literature
+      url: /literature/
+      weight: 4
     - name: "Coucou 👋"
       url: /about/
-      weight: 4
+      weight: 5
