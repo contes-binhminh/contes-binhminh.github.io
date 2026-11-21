@@ -2,8 +2,8 @@
 title: "Trois feuilles mortes"
 date: 2026-11-15
 draft: false
-description: "A poem by Raymond Richard"
-summary: "My translation from French to Vietnamese of the poem 'Trois feuilles mortes' "
+description: "Un poème de Raymond Richard"
+summary: "Ma traduction du poème de Raymond Richard: 'Trois feuilles mortes' "
 tags: ["poem", "translation"]
 # categories: ["cat"]
 weight: 1 # optional, manual order
@@ -20,8 +20,7 @@ hideAuthor: true
 **French**
 
 Ce matin devant ma porte\
-J’ai trouvé trois feuilles\
-Mortes.\
+J’ai trouvé trois feuilles mortes.\
 La première aux tons de sang\
 M’a dit bonjour en passant
 
@@ -65,7 +64,7 @@ treo trên bức tường\
 một ngày đẹp trời, sẽ nói chuyện với tôi\
 và tôi đợi ngày đó
 
--- *translated by Binh-Minh* --
+-- *traduit par Binh-Minh* --
 
 ---
 
